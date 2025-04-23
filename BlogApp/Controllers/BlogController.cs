@@ -161,6 +161,10 @@ namespace BlogApp.Controllers
                 };
                 await _blogService.AddReactionAsync(reaction);
             }
+            else if (existingReaction.IsLike == isLike)
+            {
+                await _blogService.RemoveReactionAsync(existingReaction);
+            }
             else
             {
                 existingReaction.IsLike = isLike;
@@ -170,5 +174,21 @@ namespace BlogApp.Controllers
             blog = await _blogService.GetBlogByIdAsync(blogId);
             return Json(new { likes = blog.LikesCount, dislikes = blog.DislikesCount });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AllBlogs()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var allBlogs = await _blogService.GetBlogsByUserAsync(currentUser);
+            return View(allBlogs);
+        }
+
+        public async Task<IActionResult> BlogsByStatus(ApprovalStatus status)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var blogs = await _blogService.GetBlogsByUserAsync(currentUser, status);
+            return View(nameof(AllBlogs), blogs);
+        }
+
     }
 }
