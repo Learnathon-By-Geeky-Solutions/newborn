@@ -8,8 +8,16 @@
 ## Mentor
 - kaziasifjawwad
 
-## Project Description
-Add your project description here.
+## Blog App
+The project has following features:
+1. Registration and Login
+1. Registered Users can post blogs.
+1. All users (registered & non-registered) can view the blogs posted on the landing page.
+1. At first only 5 blogs will be rendered. If any user presses the "load more" button, then the next 5 will be loaded after the 1st five.
+1. Only registered users can like, dislike and comment on the posts.
+1. All users  (registered & non-registered) can see the number of likes, dislikes and content of the comments.
+1. There will be an admin user, who will approve the blogs posts by registered users.
+1. Only after admin's approval, the blogs will be available for view, like, dislike and comment.
 
 ## Getting Started
 1. Clone the repository
