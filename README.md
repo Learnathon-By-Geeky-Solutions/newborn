@@ -11,7 +11,7 @@
 ## Blog App
 The project has following features:
 1. Registration and Login
-1. Registered Users can post blogs.
+1. Registered Users can post and edit blogs.
 1. All users (registered & non-registered) can view the blogs posted on the landing page.
 1. At first only 5 blogs will be rendered. If any user presses the "load more" button, then the next 5 will be loaded after the 1st five.
 1. Only registered users can like, dislike and comment on the posts.
