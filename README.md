@@ -18,6 +18,12 @@ The project has following features:
 1. All users  (registered & non-registered) can see the number of likes, dislikes and content of the comments.
 1. There will be an admin user, who will approve the blogs posts by registered users.
 1. Only after admin's approval, the blogs will be available for view, like, dislike and comment.
+1. Registered Users can see their posts on a separate menu.
+1. They can filter them by approval status.
+1. Registered users can change their password.
+1. Admin can view top 5 posts/blogs. (Considering number of likes and comments)
+1. Admin can block & unblock  any registered user. Blocked users can not log in to the system before unblocked.
+
 
 ## Getting Started
 1. Clone the repository
