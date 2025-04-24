@@ -49,7 +49,7 @@ namespace BlogApp.Controllers
                 if (reaction != null)
                 {
                     viewModel.UserHasReacted = true;
-                    viewModel.UserReactionIsLike = reaction.IsLike;
+                    viewModel.UserReactionIsLike = reaction.Type == ReactionType.Like;
                 }
             }
 
@@ -139,7 +139,7 @@ namespace BlogApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> React(int blogId, bool isLike)
+        public async Task<IActionResult> React(int blogId, ReactionType type)
         {
             var blog = await _blogService.GetBlogByIdAsync(blogId);
             if (blog == null || blog.Status != ApprovalStatus.Approved)
@@ -156,18 +156,18 @@ namespace BlogApp.Controllers
                 {
                     BlogId = blogId,
                     UserId = currentUser.Id,
-                    IsLike = isLike,
+                    Type = type,
                     CreatedAt = DateTime.UtcNow
                 };
                 await _blogService.AddReactionAsync(reaction);
             }
-            else if (existingReaction.IsLike == isLike)
+            else if (existingReaction.Type == type)
             {
                 await _blogService.RemoveReactionAsync(existingReaction);
             }
             else
             {
-                existingReaction.IsLike = isLike;
+                existingReaction.Type = type;
                 await _blogService.UpdateReactionAsync(existingReaction);
             }
 
@@ -180,6 +180,7 @@ namespace BlogApp.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var allBlogs = await _blogService.GetBlogsByUserAsync(currentUser);
+
             return View(allBlogs);
         }
 
@@ -187,6 +188,7 @@ namespace BlogApp.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var blogs = await _blogService.GetBlogsByUserAsync(currentUser, status);
+
             return View(nameof(AllBlogs), blogs);
         }
 

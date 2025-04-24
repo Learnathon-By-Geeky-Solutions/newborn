@@ -76,5 +76,12 @@ namespace BlogApp.Controllers
             var topBlogs = await _blogService.GetMostCommentedBlogsAsync(quantity);
             return View("Views/Admin/TopBlogs.cshtml", topBlogs);
         }
+
+        public async Task<IActionResult> TopBlogs()
+        {
+            int quantity = 5;
+            var topBlogs = await _blogService.GetTopBlogsAsync(quantity);
+            return View(topBlogs);
+        }
     }
 }

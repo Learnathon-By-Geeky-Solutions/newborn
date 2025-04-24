@@ -29,8 +29,11 @@ namespace BlogApp.Services
                     AuthorName = blog.User.UserName,
                     CreatedAt = blog.CreatedAt,
                     Status = blog.Status,
-                    LikesCount = blog.Reactions.Count(reaction => reaction.IsLike),
-                    DislikesCount = blog.Reactions.Count(reaction => !reaction.IsLike)
+                    //LikesCount = blog.Reactions.Count(reaction => reaction.IsLike),
+                    //DislikesCount = blog.Reactions.Count(reaction => !reaction.IsLike)
+
+                    LikesCount = blog.Reactions.Count(reaction => reaction.Type == ReactionType.Like),
+                    DislikesCount = blog.Reactions.Count(reaction => reaction.Type == ReactionType.Dislike)
                 })
                 .ToListAsync();
         }
@@ -115,6 +118,12 @@ namespace BlogApp.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> RemoveReactionAsync(Reaction reaction)
+        {
+            _context.Reactions.Remove(reaction);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<bool> UpdateReactionAsync(Reaction reaction)
         {
             _context.Reactions.Update(reaction);
@@ -140,6 +149,62 @@ namespace BlogApp.Services
         {
             return await _context.Blogs
                 .CountAsync(blog => blog.Status == ApprovalStatus.Approved);
+        }
+
+        public async Task<List<Blog>> GetBlogsByUserAsync(ApplicationUser user)
+        {
+            return await _context.Blogs
+                .Include(blog => blog.User)
+                .Where(blog => blog.User == user)
+                .OrderByDescending(blog => blog.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<Blog>> GetBlogsByUserAsync(ApplicationUser user, ApprovalStatus status)
+        {
+            return await _context.Blogs
+                .Include(blog => blog.User)
+                .Where(blog => blog.User == user && blog.Status == status)
+                .OrderByDescending(blog => blog.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<Blog>> GetMostLikedBlogsAsync(int quantity)
+        {
+            return (await _context.Blogs
+                .Include(blog => blog.User)
+                .Include(blog => blog.Reactions)
+                .ToListAsync())
+                .OrderByDescending(blog => blog.Reactions?.Count ?? 0)
+                .Take(quantity)
+                .ToList();
+        }
+
+        public async Task<List<Blog>> GetMostCommentedBlogsAsync(int quantity)
+        {
+            return (await _context.Blogs
+                .Include(blog => blog.User)
+                .Include(blog => blog.Comments)
+                .ToListAsync())
+                .OrderByDescending(blog => blog.Comments?.Count ?? 0)
+                .Take(quantity)
+                .ToList();
+        }
+
+        public async Task<List<Blog>> GetTopBlogsAsync(int quantity)
+        {
+            var mostLikedBlogs = await GetMostLikedBlogsAsync(quantity);
+            var mostCommentedBlogs = await GetMostCommentedBlogsAsync(quantity);
+
+            var topBlogs = mostLikedBlogs.Union(mostCommentedBlogs)
+                .GroupBy(blog => blog.Id)
+                .Select(group => group.First())
+                .OrderByDescending(blog => blog.Reactions?.Count(reaction => reaction.Type == ReactionType.Like) ?? 0)
+                .ThenByDescending(blog => blog.Comments?.Count ?? 0)
+                .Take(quantity)
+                .ToList();
+
+            return topBlogs;
         }
     }
 }

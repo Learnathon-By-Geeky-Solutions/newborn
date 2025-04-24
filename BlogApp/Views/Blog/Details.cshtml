@@ -78,7 +78,7 @@
                         Please <a asp-controller="Account" asp-action="Login">login</a> to comment on this blog post.
                     </div>
                 }
-                 
+
                 <div id="commentsList">
                     @await Html.PartialAsync("_CommentsPartial", comments)
                 </div>
@@ -93,11 +93,14 @@
             $('.reaction-btn').click(function() {
                 var blogId = $(this).data('blog-id');
                 var isLike = $(this).data('is-like');
+                ///
+                var reactionType = isLike? 0 : 1;
 
                 $.ajax({
                     url: '@Url.Action("React", "Blog")',
                     type: 'POST',
-                    data: { blogId: blogId, isLike: isLike },
+                    // data: { blogId: blogId, isLike: isLike },
+                    data: { blogId: blogId, type: reactionType},
                     success: function(result) {
                         $('#likes-count').text(result.likes);
                         $('#dislikes-count').text(result.dislikes);
