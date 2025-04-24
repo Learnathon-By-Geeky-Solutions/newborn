@@ -7,12 +7,16 @@
 
 <div class="mb-3">
     <form asp-action="BlogsByStatus" method="get" class="form-inline">
-        <select name="status" class="form-select d-inline w-auto me-2">
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        @{
+            var statuses = Html.GetEnumSelectList<ApprovalStatus>();
+            <select name="status" class="form-select d-inline w-auto me-2">
+                <option value=""></option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        }
     </form>
 </div>
 
@@ -45,6 +49,10 @@ else
                             <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#previewModal_@blog.Id">
                                 Preview
                             </a>
+                            <a asp-controller="Blog" asp-action="Edit" asp-route-id="@blog.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <form class="form-check-inline" asp-controller="Blog" asp-action="Delete" asp-route-id="@blog.Id" method="post">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
 

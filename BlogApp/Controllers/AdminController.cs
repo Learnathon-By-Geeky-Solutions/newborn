@@ -50,7 +50,6 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles ="Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AuthorizeUsers(string userId)
         {
@@ -63,6 +62,7 @@ namespace BlogApp.Controllers
             return RedirectToAction(nameof(ManageUsers));
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MostLikedBlogs()
         {
             int quantity = 5;
@@ -70,6 +70,7 @@ namespace BlogApp.Controllers
             return View("Views/Admin/TopBlogs.cshtml", topBlogs);
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> MostCommentedBlogs()
         {
             int quantity = 5;
@@ -77,6 +78,7 @@ namespace BlogApp.Controllers
             return View("Views/Admin/TopBlogs.cshtml", topBlogs);
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> TopBlogs()
         {
             int quantity = 5;

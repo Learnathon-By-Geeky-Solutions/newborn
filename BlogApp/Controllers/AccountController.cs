@@ -68,27 +68,35 @@ namespace BlogApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user.IsBlocked)
+                try
                 {
-                    ModelState.AddModelError(string.Empty, "Your account is blocked.");
-                    return View(model);
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user!=null && user.IsBlocked)
+                    {
+                        ModelState.AddModelError(string.Empty, "Your account is blocked.");
+                        return View(model);
+                    }
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    }
                 }
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                catch (Exception ex)
                 {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                }
+                    ModelState.AddModelError(String.Empty, "User doesn't exist");
+                }                
             }
 
             return View(model);
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
@@ -96,7 +104,6 @@ namespace BlogApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        ///
         [HttpGet]
         [Authorize]
         public IActionResult ChangePassword()
@@ -105,8 +112,8 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(PasswordViewModel model)
         {
             if (_signInManager.IsSignedIn(User))
@@ -127,6 +134,5 @@ namespace BlogApp.Controllers
 
             return View(model);
         }
-        ///
     }
 }
