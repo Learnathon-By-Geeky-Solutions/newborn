@@ -23,6 +23,19 @@ The project has following features:
 1. Admin can view top 5 posts/blogs. (Considering number of likes and comments)
 1. Admin can block & unblock  any registered user. Blocked users cannot log in to the system.
 
+## UI
+![Screenshot (1)](https://github.com/user-attachments/assets/559187b6-507c-4f48-a354-0714dd79eec7)
+![Screenshot (2)](https://github.com/user-attachments/assets/84c14510-f189-4c01-aa8c-3a344eddded1)
+![Screenshot (3)](https://github.com/user-attachments/assets/59e27406-a528-4d9e-9c51-53a07f124dd4)
+![Screenshot (4)](https://github.com/user-attachments/assets/584ccad9-231f-466b-834a-6240f12389c2)
+![Screenshot (5)](https://github.com/user-attachments/assets/8bc97196-b966-4563-8fe3-0710c1cff772)
+![Screenshot (6)](https://github.com/user-attachments/assets/2237118f-8908-4cbc-8f07-911c66035c68)
+![Screenshot (7)](https://github.com/user-attachments/assets/5b1c5b25-569a-434d-9093-b32799100e82)
+![Screenshot (8)](https://github.com/user-attachments/assets/55834173-5fa9-485a-a27f-cfaf61b2bc81)
+![Screenshot (9)](https://github.com/user-attachments/assets/200597ab-299d-43b8-bcf3-e098075b67dd)
+![Screenshot (10)](https://github.com/user-attachments/assets/e4f3f95c-ed4c-4f0e-a490-b28e2430a517)
+![Screenshot (11)](https://github.com/user-attachments/assets/933a4275-6fd0-4f78-80ee-85d8bd08e485)
+![Screenshot (12)](https://github.com/user-attachments/assets/fcad2bb3-ad5a-435b-ab34-f01c3e86ed61)
 
 ## Getting Started
 1. Clone the repository
