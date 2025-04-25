@@ -23,7 +23,7 @@ The project has following features:
 1. Admin can view top 5 posts/blogs. (Considering number of likes and comments)
 1. Admin can block & unblock  any registered user. Blocked users cannot log in to the system.
 
-## UI
+## Images
 ![Screenshot (1)](https://github.com/user-attachments/assets/559187b6-507c-4f48-a354-0714dd79eec7)
 ![Screenshot (2)](https://github.com/user-attachments/assets/84c14510-f189-4c01-aa8c-3a344eddded1)
 ![Screenshot (3)](https://github.com/user-attachments/assets/59e27406-a528-4d9e-9c51-53a07f124dd4)
