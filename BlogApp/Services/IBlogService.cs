@@ -17,6 +17,10 @@ namespace BlogApp.Services
         Task<List<CommentViewModel>> GetBlogCommentsAsync(int blogId);
         Task<bool> AddReactionAsync(Reaction reaction);
         Task<bool> RemoveReactionAsync(Reaction reaction);
+        ///
+        Task<Comment> GetCommentByIdAsync(int id);
+        Task<bool> DeleteCommentAsync(int blogId);
+        Task<bool> UpdateCommentAsync(Comment comment);
 
         Task<bool> UpdateReactionAsync(Reaction reaction);
         Task<Reaction> GetUserReactionAsync(int blogId, string userId);
@@ -28,7 +32,5 @@ namespace BlogApp.Services
         Task<List<Blog>> GetMostLikedBlogsAsync(int quantity);
         Task<List<Blog>> GetMostCommentedBlogsAsync(int quantity);
         Task<List<Blog>> GetTopBlogsAsync(int quantity);
-
-
     }
 }

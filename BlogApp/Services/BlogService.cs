@@ -29,8 +29,6 @@ namespace BlogApp.Services
                     AuthorName = blog.User.UserName,
                     CreatedAt = blog.CreatedAt,
                     Status = blog.Status,
-                    //LikesCount = blog.Reactions.Count(reaction => reaction.IsLike),
-                    //DislikesCount = blog.Reactions.Count(reaction => !reaction.IsLike)
 
                     LikesCount = blog.Reactions.Count(reaction => reaction.Type == ReactionType.Like),
                     DislikesCount = blog.Reactions.Count(reaction => reaction.Type == ReactionType.Dislike)
@@ -206,5 +204,29 @@ namespace BlogApp.Services
 
             return topBlogs;
         }
+
+        ///
+        public async Task<bool> DeleteCommentAsync(int id)
+        {
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
+                return false;
+
+            _context.Comments.Remove(comment);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<Comment> GetCommentByIdAsync(int id)
+        {
+            return await _context.Comments
+                .FirstOrDefaultAsync(comment => comment.Id == id);
+        }
+
+        public async Task<bool> UpdateCommentAsync(Comment comment)
+        {
+            _context.Comments.Update(comment);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
     }
 }
